@@ -1,4 +1,6 @@
 <?php
+$hardlogger_version = "2.0.0";
+
 //Initialize DB
 mysql_connect("localhost", "hardlogger", "asdf1234");
 mysql_select_db("hardlogger");
