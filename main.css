@@ -1,0 +1,211 @@
+*
+{
+    box-sizing: content-box;
+    -moz-box-sizing: content-box;
+}
+
+button::-moz-focus-inner,
+input[type="button"]::-moz-focus-inner,
+input[type="submit"]::-moz-focus-inner,
+input[type="reset"]::-moz-focus-inner
+{
+     padding: 0 !important;
+     border: 0 none !important;
+ }
+
+input[type='text']
+{
+    background: #FFFFFF;
+    color: #000000;
+    padding: 2px;
+    border: 2px solid #000000;
+    margin: 0px;
+}
+
+input[type='text']:disabled
+{
+    border: 2px solid #AAAAAA;
+}
+
+caption
+{
+    text-align: left;
+    font-weight: bold;
+    font-size: 125%;
+}
+
+button,
+input[type='button'],
+input[type='submit']
+{
+    background: #3d3d3d;
+    color: #dddddd;
+    border: 1px solid #ff4800;
+    padding: 3px;
+}
+
+button:disabled,
+input[type='button']:disabled,
+input[type='submit']:disabled
+{
+    background: #2d2d2d;
+    color: #bbbbbb; 
+    border: 1px solid #3d3d3d;
+}
+
+.caps
+{
+    text-transform: uppercase;
+}
+
+.greyed
+{
+    color: #AAAAAA;
+}
+
+.unittable
+{
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.headertable
+{
+    border-collapse: collapse;
+    margin-left: 3px;
+    width: 100%;
+}
+
+.unittd
+{
+    padding: 2px;
+    padding-right: 8px;
+}
+
+.newqso
+{
+    text-transform: uppercase;
+    width: 100%;
+}
+
+#searchcriteria
+{
+    text-transform: uppercase;
+    width: 100%;
+}
+
+#searchresult
+{
+    border: 2px solid #000000;
+    height: 175px;
+    overflow: auto;
+    width: 100%;
+    padding: 1px;
+}
+
+#queue
+{
+    border: 2px solid #000000;
+    height: 175px;
+    overflow: auto;
+    width: 100%;
+    padding: 1px;
+}
+
+#editor
+{
+    display: none;
+}
+
+#editresult
+{
+    display: none;
+}
+
+#voider
+{
+    display: none;
+}
+
+#voidresult
+{
+    display: none;
+}
+
+.resulttd
+{
+    padding: 1px;
+    text-align: left;
+}
+
+.resulttd:last-child
+{
+    padding-left: 10px;
+}
+
+.freq_cell
+{
+    width: 100px;
+}
+
+.serial_cell
+{
+    width: 75px;
+}
+
+.prec_cell
+{
+    width: 100px;
+}
+
+.call_cell
+{
+    width: 100px;
+}
+
+.check_cell
+{
+    width: 75px;
+}
+
+.section_cell
+{
+    width: 75px;
+}
+
+.stamp_cell
+{
+    width: 175px;
+}
+
+.map
+{
+    margin: 1px;
+    width: 100%;
+}
+
+.watermark
+{
+    color: #CCCCCC;
+}
+
+input::-webkit-input-placeholder
+{
+    color: #CCCCCC;
+}
+
+input:-moz-placeholder
+{
+    color: #CCCCCC;
+    opacity: 1;
+}
+
+input::-moz-placeholder {
+    color: #CCCCCC;
+    opacity: 1;
+}
+
+input:-ms-input-placeholder
+{
+    color: #CCCCCC;
+}

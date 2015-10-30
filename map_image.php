@@ -1,12 +1,26 @@
 <?php
-include_once("config.php");
+include_once("hlconn.php");
+
+try
+{
+    $conds = ["(Status=1)"];
+    $sections_all = $hl->queryQSOSections($conds);
+
+    $conds[] = "(EventID=" . $hl->currEvent() . ")";
+    $sections_this = $hl->queryQSOSections($conds);
+}
+catch (HardloggerException $e)
+{
+    $e->handleHTTP();
+}
+
 header('Content-Type: image/jpeg');
 header("Expires: Sun, 19 Nov 1978 05:00:00 GMT");
 header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
 header("Cache-Control: no-store, no-cache, must-revalidate");
 header("Cache-Control: post-check=0, pre-check=0", false);
 header("Pragma: no-cache");
-//$im = imagecreatefromjpeg("./map.jpg");
+
 $im = imagecreatefromgif("./map.gif");
 
 $sections = array(  'CT' => array(1420=>425,1410=>425,1404=>425,1402=>432),
@@ -96,13 +110,10 @@ $sections = array(  'CT' => array(1420=>425,1410=>425,1404=>425,1402=>432),
 
 foreach($sections as $sec=>$pts)
 {
-    $result = mysql_query("SELECT (SELECT COUNT(id) FROM qsos WHERE Status=1 AND Section='" . $sec . "'), (SELECT COUNT(id) FROM qsos WHERE Status=1 AND Section='" . $sec . "' AND EventID=" . $this_event .");");
-    $row = mysql_fetch_array($result, MYSQL_NUM);
-    if($row[1])
+    if(in_array($sec, $sections_this))
         $color = imagecolorallocate($im,0,255,0);
-    elseif($row[0])
+    elseif(in_array($sec, $sections_all))
         $color = imagecolorallocate($im,200,200,200);
-        //$color = imagecolorallocate($im,255,150,150);
     else
         $color = imagecolorallocate($im,255,0,0);
     foreach($pts as $yval => $xval)
