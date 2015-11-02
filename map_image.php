@@ -3,7 +3,7 @@ include_once("hlconn.php");
 
 try
 {
-    $conds = ["(Status=1)"];
+    $conds = array(0 => "(Status=1)");
     $sections_all = $hl->queryQSOSections($conds);
 
     $conds[] = "(EventID=" . $hl->currEvent() . ")";

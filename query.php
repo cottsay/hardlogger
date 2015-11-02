@@ -163,6 +163,6 @@ catch (HardloggerException $e)
     $e->handleHTTP();
 }
 
-echo json_encode($qsos, JSON_PRETTY_PRINT);
+echo json_encode($qsos);
 
 ?>

@@ -42,7 +42,7 @@ foreach($soapbox as $box)
 
 foreach ($qsos as $row)
 {
-    echo "QSO: " . str_pad($row['Frequency'],5,' ',STR_PAD_LEFT) . ' ' . $event['cat_mode'] . ' ' . date("Y-m-d", strtotime($row['LoggedAt'])) . ' ' . date("Hi", strtotime($row['LoggedAt'])) . ' ' . str_pad($event['callsign'],13) . ' ' . str_pad($row['ContactNumber'],4,' ',STR_PAD_LEFT) . ' ' . $event['precedence'] . ' ' . str_pad($event['chk'],2,'0',STR_PAD_LEFT) . ' ' . str_pad('SD',3) . ' ' . str_pad($row['Callsign'],13) . ' ' . str_pad($row['Serial'],4,' ', STR_PAD_LEFT) . ' ' . $row['Precedence'] . ' ' . str_pad($row['CheckNum'],2,'0',STR_PAD_LEFT) . ' ' . str_pad($row['Section'],3) . "\n";
+    $cabrillo .= "QSO: " . str_pad($row['Frequency'],5,' ',STR_PAD_LEFT) . ' ' . $event['cat_mode'] . ' ' . date("Y-m-d", strtotime($row['LoggedAt'])) . ' ' . date("Hi", strtotime($row['LoggedAt'])) . ' ' . str_pad($event['callsign'],13) . ' ' . str_pad($row['ContactNumber'],4,' ',STR_PAD_LEFT) . ' ' . $event['precedence'] . ' ' . str_pad($event['chk'],2,'0',STR_PAD_LEFT) . ' ' . str_pad($event['location'] ,3) . ' ' . str_pad($row['Callsign'],13) . ' ' . str_pad($row['Serial'],4,' ', STR_PAD_LEFT) . ' ' . $row['Precedence'] . ' ' . str_pad($row['CheckNum'],2,'0',STR_PAD_LEFT) . ' ' . str_pad($row['Section'],3) . "\r\n";
 }
 
 $cabrillo .= "END-OF-LOG:\r\n";

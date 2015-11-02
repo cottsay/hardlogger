@@ -156,7 +156,7 @@ class Hardlogger
                 $this->selectEvent();
             }
 
-            $result = $this->db->query("SELECT id,event_name,callsign,contest,cat_operator,cat_assist,cat_band,cat_power,cat_mode,cat_transmitter,club,location,name,address,city,state,postal,country,operators,soapbox,chk,precidence,cat_mode_cat,cat_station FROM events WHERE id='" . $this->event_id . "'");
+            $result = $this->db->query("SELECT id,event_name,callsign,contest,cat_operator,cat_assist,cat_band,cat_power,cat_mode,cat_transmitter,club,location,name,address,city,state,postal,country,operators,soapbox,chk,precedence,cat_mode_cat,cat_station FROM events WHERE id='" . $this->event_id . "'");
 
             if (!$result)
             {
@@ -290,7 +290,9 @@ class Hardlogger
             throw new HardloggerException("Failed to query qsos: " . $this->db->error);
         }
 
-        $qsos = $result->fetch_assoc()['COUNT(id)'];
+        $row = $result->fetch_assoc();
+
+        $qsos = $row['COUNT(id)'];
 
         $result->free();
 
@@ -301,7 +303,7 @@ class Hardlogger
     {
         $this->connect();
 
-        $value_strs = [];
+        $value_strs = array();
 
         foreach ($values as $key => $val)
         {
