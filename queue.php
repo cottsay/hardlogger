@@ -1,3 +1,6 @@
+<?php
+include_once("hlconn.php");
+?>
 <table class="unittable">
     <tr>
         <td class="unittd"><h3>New Queued QSO</h3></td>
@@ -19,7 +22,7 @@
     </tr>
     <tr>
         <td class="unittd" id="newqso_queued">
-            <form id="qsoform" action="newqso.php" method="post">
+            <form class="qsoform" action="newqso.php?event_id=<?php echo $hl->currEvent() ?>" method="post">
                 <table class="headertable">
                     <tr>
                         <td class="resulttd freq_cell"><input name="freq" type="text" class="newqso"></td>
@@ -28,7 +31,7 @@
                         <td class="resulttd call_cell"><input name="call" type="text" class="newqso"></td>
                         <td class="resulttd check_cell"><input name="check" type="text" class="newqso"></td>
                         <td class="resulttd section_cell"><input name="section" type="text" class="newqso"></td>
-                        <td class="resulttd"><input type="submit" value="Queue QSO"> <input type="button" value="Clear"></td>
+                        <td class="resulttd"><input name="status" type="hidden" value="0"><input type="submit" value="Queue QSO"> <input name="clear" type="button" value="Clear"> <input type="checkbox" name="validation_override">Override Validation</td>
                     </tr>
                 </table>
             </form>
@@ -38,7 +41,9 @@
         <td class="unittd"><div id="queue"></div></td>
     </tr>
 </table>
+<script type="text/javascript" src="queue.js"></script>
 <?php
 include_once("voider.php");
 include_once("editor.php");
+include_once("adder.php");
 ?>

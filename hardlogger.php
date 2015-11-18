@@ -317,10 +317,12 @@ class Hardlogger
                 break;
             case 'Callsign':
             case 'Frequency':
-            case 'LoggedAt':
             case 'Precedence':
             case 'Section':
                 $value_strs[] = $key . "='" . $val . "'";
+                break;
+            case 'LoggedAt':
+                $value_strs[] = $key . "=" . (($val == "NOW()") ? $val : "'" . $val . "'");
                 break;
             default:
                 throw new HardloggerException("Invalid QSO field '" . $key . "'");
@@ -333,6 +335,60 @@ class Hardlogger
         if (!$result)
         {
             throw new HardloggerException("Failed to update qso " . $qso_id . ": " . $this->db->error);
+        }
+    }
+
+    public function newQSO($values)
+    {
+        $this->connect();
+
+        if ($this->event_id == null)
+        {
+            $this->selectEvent();
+        }
+
+        $col_strs = array();
+        $value_strs = array();
+
+        foreach ($values as $key => $val)
+        {
+            switch ($key)
+            {
+            case 'CheckNum':
+            case 'ContactNumber':
+            case 'Serial':
+            case 'Status':
+                $col_strs[] = $key;
+                $value_strs[] = $val;
+                break;
+            case 'Callsign':
+            case 'Frequency':
+            case 'Precedence':
+            case 'Section':
+                $col_strs[] = $key;
+                $value_strs[] = "'" . $val . "'";
+                break;
+            case 'LoggedAt':
+                $col_strs[] = $key;
+                $value_strs[] = ($val == "NOW()") ? $val : "'" . $val . "'";
+                break;
+            default:
+                throw new HardloggerException("Invalid QSO field '" . $key . "'");
+                break;
+            }
+        }
+
+        $col_strs[] = 'CreatedAt';
+        $value_strs[] = 'NOW()';
+
+        $col_strs[] = 'EventID';
+        $value_strs[] = $this->event_id;
+
+        $result = $this->db->query("INSERT INTO qsos (" . implode(", ", $col_strs) . ") VALUES(" . implode(", ", $value_strs) . ")");
+
+        if (!$result)
+        {
+            throw new HardloggerException("Failed to insert qso: " . $this->db->error);
         }
     }
     # PUBLIC API END

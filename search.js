@@ -23,6 +23,7 @@ function searchQSOs()
         url: 'query.php',
         data: 'all_events&get_event&get_id&get_status&get_freq&get_serial&get_prec&get_call&get_check&get_section&get_logged&no_void&order=created&rev&search=' + $(this).val(),
         dataType: 'json',
+        cache: false,
     })
     .done(function(data)
     {
@@ -35,7 +36,7 @@ function searchQSOs()
         }
 
         searchcrit.css('backgroundColor', '#00FF00');
-        searchres.html("<table>");
+        var inner_html = "<table class=\"unittable\">";
 
         for (var i in data)
         {
@@ -59,10 +60,12 @@ function searchQSOs()
                 }
             }
 
-            searchres.append("<tr><td class=\"" + tdclass + " freq_cell\">" + data[i].Frequency + "</td><td class=\"" + tdclass + " serial_cell\">" + (data[i].Serial == null ? "" : data[i].Serial) + "</td><td class=\"" + tdclass + " prec_cell\">" + data[i].Precedence + "</td><td class=\"" + tdclass + " call_cell\">" + data[i].Callsign + "</td><td class=\"" + tdclass + " check_cell\">" + (data[i].CheckNum.length < 2 ? "0" : "") + data[i].CheckNum + "</td><td class=\"" + tdclass + " section_cell\">" + data[i].Section + "</td><td class=\"" + tdclass + " stamp_cell\">" + (data[i].LoggedAt == null ? "" : data[i].LoggedAt) + "</td><td class=\"" + tdclass + "\">" + tdbuttons + "</td></tr>");
+            inner_html += "<tr><td class=\"" + tdclass + " freq_cell\">" + data[i].Frequency + "</td><td class=\"" + tdclass + " serial_cell\">" + (data[i].Serial == null ? "" : data[i].Serial) + "</td><td class=\"" + tdclass + " prec_cell\">" + data[i].Precedence + "</td><td class=\"" + tdclass + " call_cell\">" + data[i].Callsign + "</td><td class=\"" + tdclass + " check_cell\">" + (data[i].CheckNum.length < 2 ? "0" : "") + data[i].CheckNum + "</td><td class=\"" + tdclass + " section_cell\">" + data[i].Section + "</td><td class=\"" + tdclass + " stamp_cell\">" + (data[i].LoggedAt == null ? "" : data[i].LoggedAt) + "</td><td class=\"" + tdclass + "\">" + tdbuttons + "</td></tr>";
         }
 
-        searchres.append("</table>");
+        inner_html += "</table>";
+
+        searchres.html(inner_html);
 
         return false; // keeps the page from not refreshing 
     });

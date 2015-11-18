@@ -1,5 +1,8 @@
+<?php
+include_once("hlconn.php");
+?>
 <div id="editor">
-<form action="editqso.php" method="post" id="qsoform">
+<form action="editqso.php?event_id=<?php echo $hl->currEvent() ?>" method="post" class="qsoform">
 <table>
 <caption>Edit QSO</caption>
 <tr><td colspan="2">&nbsp;</td></tr>
@@ -26,6 +29,5 @@
 <tr><td><input type="button" value="OK" id="editresultclose"></td></tr>
 </table>
 </div>
-<script type="text/javascript" src="voider.js"></script>
 <script type="text/javascript" src="editor.js"></script>
 <?php include_once("validator.php"); ?>

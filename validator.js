@@ -1,3 +1,51 @@
+function clearDupeDisplay(e)
+{
+    $('.dupe_message_display').html('');
+}
+
+function dupeCheck(e)
+{
+    var target = $(this);
+
+    $.ajax({
+        url: 'query.php',
+        data: 'call=' + $(this).val() + '&get_id&get_logged&logged&order=logged&max=1&rev&event_id=' + HLEventID,
+        dataType: 'json',
+        cache: false,
+    })
+    .done(function(data)
+    {
+        if (data.length > 0)
+        {
+            target.css('background-color', '#FFFF00');
+
+            e.data.commons.bitmask |= (1 << e.data.bit);
+
+            $('.dupe_message_display').html('ALREADY WORKED AT ' + data[0].LoggedAt);
+        }
+        else
+        {
+            target.css('background-color', '#00FF00');
+
+            e.data.commons.bitmask &= ~(1 << e.data.bit);
+        }
+
+        e.data.commons.submitter.prop('disabled', (!e.data.commons.override.is(':checked')) && e.data.commons.bitmask);
+
+        return false; // keeps the page from not refreshing 
+    })
+    .fail(function()
+    {
+        target.css('background-color', '#FFFFFF');
+
+        e.data.commons.bitmask &= ~(1 << e.data.bit);
+
+        e.data.commons.submitter.prop('disabled', (!e.data.commons.override.is(':checked')) && e.data.commons.bitmask);
+
+        return false; // keeps the page from not refreshing 
+    });
+}
+
 function verifyFrequency(freq)
 {
     if (freq.length < 1)
@@ -115,7 +163,7 @@ function verifyTimestamp(stamp)
         return null;
     }
 
-    if (/^[\d]{4}-[\d]{2}-[\d]{2} [\d]{2}:[\d]{2}:[\d]{2}$/.test(stamp) && Date.parse(stamp.replace(' ', 'T')))
+    if ((stamp == 'NOW()') || (/^[\d]{4}-[\d]{2}-[\d]{2} [\d]{2}:[\d]{2}:[\d]{2}$/.test(stamp) && Date.parse(stamp.replace(' ', 'T'))))
     {
         return true;
     }
@@ -125,9 +173,21 @@ function verifyTimestamp(stamp)
 
 function verifyAndUpdate(e)
 {
+    if (e.data.preVerify)
+    {
+        e.data.preVerify.call($(this), e);
+    }
+
     switch (e.data.verifier($(this).val()))
     {
     case true:
+        if (e.data.alternatePositive)
+        {
+            e.data.alternatePositive.call($(this), e);
+
+            return true;
+        }
+
         $(this).css('background-color', '#00FF00');
 
         e.data.commons.bitmask &= ~(1 << e.data.bit);
@@ -140,6 +200,8 @@ function verifyAndUpdate(e)
         {
             e.data.commons.bitmask |= (1 << e.data.bit);
         }
+
+        //alert(e.data.commons.bitmask);
 
         break;
     case null:
@@ -163,7 +225,21 @@ function verifyOverride(e)
     e.data.submitter.prop('disabled', (!$(this).is(':checked')) && (e.data.bitmask));
 }
 
-function bindValidator()
+function forceValidation(e)
+{
+    e.data.commons.bitmask = 0;
+
+    $(this).find("input[name='num']").trigger('onpropertychange');
+    $(this).find("input[name='freq']").trigger('onpropertychange');
+    $(this).find("input[name='serial']").trigger('onpropertychange');
+    $(this).find("input[name='prec']").trigger('onpropertychange');
+    $(this).find("input[name='call']").trigger('onpropertychange');
+    $(this).find("input[name='check']").trigger('onpropertychange');
+    $(this).find("input[name='section']").trigger('onpropertychange');
+    $(this).find("input[name='stamp']").trigger('onpropertychange');
+}
+
+function bindValidator(callDupeCheck)
 {
     var submitButton = $(this).find("input[type='submit']");
     var overrideCheck = $(this).find("input[name='validation_override']");
@@ -186,6 +262,8 @@ function bindValidator()
 
     overrideCheck.on('change', commons, verifyOverride);
 
+    $(this).on('forceValidation', { commons: commons }, forceValidation);
+
     numBox.attr('alt', 'Your station\'s serial number for the QSO');
     numBox.on('input onpropertychange', { verifier: verifySerial, bit: 0, commons: commons }, verifyAndUpdate);
     freqBox.attr('alt', 'Frequency in Kilohertz');
@@ -195,7 +273,16 @@ function bindValidator()
     precBox.attr('alt', 'Station\'s reported precedence');
     precBox.on('input onpropertychange', { verifier: verifyPrecedence, bit: 3, commons: commons }, verifyAndUpdate);
     callBox.attr('alt', 'Station\'s callsign');
-    callBox.on('input onpropertychange', { verifier: verifyCallsign, bit: 4, commons: commons }, verifyAndUpdate);
+
+    if (callDupeCheck)
+    {
+        callBox.on('input onpropertychange', { verifier: verifyCallsign, bit: 4, commons: commons, preVerify: clearDupeDisplay, alternatePositive: dupeCheck }, verifyAndUpdate);
+    }
+    else
+    {
+        callBox.on('input onpropertychange', { verifier: verifyCallsign, bit: 4, commons: commons }, verifyAndUpdate);
+    }
+
     checkBox.attr('alt', 'Station\'s reported check value');
     checkBox.on('input onpropertychange', { verifier: verifyCheck, bit: 5, commons: commons }, verifyAndUpdate);
     sectionBox.attr('alt', 'Station\'s section identifier');
@@ -203,25 +290,16 @@ function bindValidator()
     stampBox.attr('alt', 'Date and time at which the station was worked (YYYY-MM-DD HH:MM:SS)');
     stampBox.on('input onpropertychange', { verifier: verifyTimestamp, bit: 7, commons: commons }, verifyAndUpdate);
 
-    $(this).find('#qsoform').attr('autocomplete', 'off');
-}
-
-function forceValidation()
-{
-    $(this).find("input[name='num']").trigger('onpropertychange');
-    $(this).find("input[name='freq']").trigger('onpropertychange');
-    $(this).find("input[name='serial']").trigger('onpropertychange');
-    $(this).find("input[name='prec']").trigger('onpropertychange');
-    $(this).find("input[name='call']").trigger('onpropertychange');
-    $(this).find("input[name='check']").trigger('onpropertychange');
-    $(this).find("input[name='section']").trigger('onpropertychange');
-    $(this).find("input[name='stamp']").trigger('onpropertychange');
+    $(this).find('.qsoform').attr('autocomplete', 'off');
 }
 
 $(document).ready(function()
 {
-    bindValidator.call($('#editor'));
-    bindValidator.call($('#newqso_queued'));
+    bindValidator.call($('#editor'), false);
+    bindValidator.call($('#newqso_queued'), true);
+    bindValidator.call($('#newqso_confirmed'), true);
 
-    forceValidation.call($('#newqso_queued'));
+    $('#editor').trigger('forceValidation');
+    $('#newqso_queued').trigger('forceValidation');
+    $('#newqso_confirmed').trigger('forceValidation');
 });

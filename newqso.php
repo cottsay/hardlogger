@@ -37,7 +37,7 @@ try
 
     if (isset($_POST['stamp']))
     {
-        $vals['LoggedAt'] = $_POST['stamp'];
+        $vals['LoggedAt'] = strtoupper($_POST['stamp']);
     }
 
     if (isset($_POST['prec']))
@@ -50,7 +50,14 @@ try
         $vals['Section'] = strtoupper($_POST['section']);
     }
 
-    $hl->newQSO($vals);
+    if (isset($_POST['original_id']) && !empty($_POST['original_id']))
+    {
+        $hl->editQSO($_POST['original_id'], $vals);
+    }
+    else
+    {
+        $hl->newQSO($vals);
+    }
 }
 catch (HardloggerException $e)
 {

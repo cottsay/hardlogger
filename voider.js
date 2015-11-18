@@ -58,7 +58,8 @@ function submitVoidQSO(e)
     $.ajax({
         type: 'POST',
         url: $(this).prop('action'),
-        data: { qso_id: $(this).find("input[name='qso_id']").val() }
+        data: { qso_id: $(this).find("input[name='qso_id']").val() },
+        cache: false,
     })
     .done(function()
     {
@@ -85,6 +86,11 @@ function submitVoidQSO(e)
 
         // Refresh any input fields so the lists refresh
         $("#searchcriteria").trigger('onpropertychange');
+        $("#queue, #selectable_queue").trigger('refreshQueue');
+        $('#editor').trigger('forceValidation');
+        $('#newqso_queued').trigger('forceValidation');
+        $('#newqso_confirmed').trigger('forceValidation');
+        $('#newqso_confirmed').find("input[type='text'][name='num']").trigger('refreshContactNum');
     })
     .fail(function(jqXHR, textStatus, errorThrown)
     {

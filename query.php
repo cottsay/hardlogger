@@ -87,9 +87,28 @@ if (isset($_GET['no_void']))
     $conds[] = "(Status != 2)";
 }
 
+if (isset($_GET['logged']))
+{
+    $conds[] = "(Status = 1)";
+}
+
+if (isset($_GET['queued']))
+{
+    $conds[] = "(Status = 0)";
+}
+
+if (isset($_GET['no_queued']))
+{
+    $conds[] = "(Status != 0)";
+}
+
 if (isset($_GET['qso_id']))
 {
     $conds[] = "(id='" . mysql_real_escape_string($_GET['qso_id']) . "')";
+}
+else if (isset($_GET['call']))
+{
+    $conds[] = "(Callsign = '" . $_GET['call'] . "')";
 }
 else if (isset($_GET['search']))
 {

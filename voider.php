@@ -1,5 +1,8 @@
+<?php
+include_once("hlconn.php");
+?>
 <div id="voider">
-<form action="voidqso.php" method="post" id="voidform">
+<form action="voidqso.php?event_id=<?php echo $hl->currEvent() ?>" method="post" id="voidform">
 <table>
 <caption>Void QSO</caption>
 <tr><td colspan="3">&nbsp;</td></tr>

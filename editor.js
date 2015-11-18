@@ -7,6 +7,7 @@ function editQSO(qso_id)
         url: 'query.php',
         data: 'all_events&get_status&get_num&get_freq&get_serial&get_prec&get_call&get_check&get_section&get_logged&qso_id=' + qso_id,
         dataType: 'json',
+        cache: false,
     })
     .done(function(data)
     {
@@ -61,7 +62,7 @@ function editQSO(qso_id)
         editor.find("input[name='validation_override']").prop('checked', false);
 
         // Validate the data
-        forceValidation.call(editor);
+        editor.trigger('forceValidation');
 
         // Bind 'ESC' key while in form
         editor.keyup(function(e)
@@ -126,6 +127,7 @@ function submitEditQSO(e)
         type: 'POST',
         url: $(this).prop('action'),
         data: data,
+        cache: false,
     })
     .done(function()
     {
@@ -152,6 +154,11 @@ function submitEditQSO(e)
 
         // Refresh any input fields so the lists refresh
         $("#searchcriteria").trigger('onpropertychange');
+        $("#queue, #selectable_queue").trigger('refreshQueue');
+        $('#editor').trigger('forceValidation');
+        $('#newqso_queued').trigger('forceValidation');
+        $('#newqso_confirmed').trigger('forceValidation');
+        $('#newqso_confirmed').find("input[type='text'][name='num']").trigger('refreshContactNum');
     })
     .fail(function(jqXHR, textStatus, errorThrown)
     {
@@ -180,7 +187,7 @@ function submitEditQSO(e)
 
 function bindEditQSO()
 {
-    $(this).find('#qsoform').on('submit', submitEditQSO);
+    $(this).find('.qsoform').on('submit', submitEditQSO);
 }
 
 $(document).ready(function()
