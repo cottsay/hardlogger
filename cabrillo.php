@@ -47,9 +47,13 @@ foreach ($qsos as $row)
 
 $cabrillo .= "END-OF-LOG:\r\n";
 
-header('Content-Description: File Transfer');
+if (!isset($_GET['view']))
+{
+    header('Content-Description: File Transfer');
+    header('Content-Disposition: attachment; filename="' . $event['callsign'] . '.log"');
+}
+
 header("Content-type: text/plain");
-header('Content-Disposition: attachment; filename="' . $event['callsign'] . '.log"');
 header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
 header('Content-Length: ' . strlen($cabrillo));
 
