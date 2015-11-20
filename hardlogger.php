@@ -322,7 +322,7 @@ class Hardlogger
                 $value_strs[] = $key . "='" . $val . "'";
                 break;
             case 'LoggedAt':
-                $value_strs[] = $key . "=" . (($val == "NOW()") ? $val : "'" . $val . "'");
+                $value_strs[] = $key . "=" . (($val == "UTC_TIMESTAMP()" || $val == "NOW()") ? $val : "'" . $val . "'");
                 break;
             default:
                 throw new HardloggerException("Invalid QSO field '" . $key . "'");
@@ -370,7 +370,7 @@ class Hardlogger
                 break;
             case 'LoggedAt':
                 $col_strs[] = $key;
-                $value_strs[] = ($val == "NOW()") ? $val : "'" . $val . "'";
+                $value_strs[] = ($val == "UTC_TIMESTAMP()" || $val == "NOW()") ? $val : "'" . $val . "'";
                 break;
             default:
                 throw new HardloggerException("Invalid QSO field '" . $key . "'");
@@ -379,7 +379,7 @@ class Hardlogger
         }
 
         $col_strs[] = 'CreatedAt';
-        $value_strs[] = 'NOW()';
+        $value_strs[] = 'UTC_TIMESTAMP()';
 
         $col_strs[] = 'EventID';
         $value_strs[] = $this->event_id;

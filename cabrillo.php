@@ -5,7 +5,7 @@ try
 {
     $event = $hl->getEvent();
     $stats = $stats = $hl->getStats();
-    $qsos = $hl->queryQSOs(['Frequency', 'LoggedAt', 'ContactNumber', 'Callsign', 'Serial', 'Precedence', 'CheckNum', 'Section'], ['(EventID=' . $event['id'] . ')', '(Status=1)'], 'ContactNumber', false, null);
+    $qsos = $hl->queryQSOs(array('Frequency', 'LoggedAt', 'ContactNumber', 'Callsign', 'Serial', 'Precedence', 'CheckNum', 'Section'), array('(EventID=' . $event['id'] . ')', '(Status=1)'), 'ContactNumber', false, null);
 }
 catch (HardloggerException $e)
 {

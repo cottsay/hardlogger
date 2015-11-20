@@ -9,7 +9,11 @@ function selectQueuedQso(e)
     var clicked_original_id = $(this).find("input[name='original_id']");
     var current_original_id = target.find("input[name='original_id']");
 
-    if (current_original_id.val() != clicked_original_id.val())
+    if ($(e.target).is("input[name='original_id']"))
+    {
+        $(this).css('backgroundColor', '#00FF00');
+    }
+    else if (current_original_id.val() != clicked_original_id.val())
     {
         current_original_id.val(clicked_original_id.val());
         target.find("input[name='freq']").val($(this).find(".freq_cell").html());
@@ -75,13 +79,13 @@ function refreshQueue(e)
         if (e.data)
         {
             queue.find("tr.selectable").on('click', selectQueuedQso);
+
+             var original_id_current = $('#newqso_confirmed').find("input[name='original_id']");
+             var original_id = original_id_current.val();
+
+            queue.find("input[name='original_id'][value='" + original_id + "']").trigger('click');
         }
 
-        var original_id_current = $('#newqso_confirmed').find("input[name='original_id']");
-        var original_id = original_id_current.val();
-        original_id_current.val('');
-
-        queue.find("input[name='original_id'][value='" + original_id + "']").trigger('click');
 
         return false; // keeps the page from not refreshing 
     });

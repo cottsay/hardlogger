@@ -6,16 +6,20 @@ function clearDupeDisplay(e)
 function dupeCheck(e)
 {
     var target = $(this);
+    var orig_val = target.val()
 
     $.ajax({
         url: 'query.php',
-        data: 'call=' + $(this).val() + '&get_id&get_logged&logged&order=logged&max=1&rev&event_id=' + HLEventID,
+        data: 'call=' + target.val() + '&get_id&get_logged&logged&order=logged&max=1&rev&event_id=' + HLEventID,
         dataType: 'json',
         cache: false,
     })
     .done(function(data)
     {
-        if (data.length > 0)
+        if (target.val() != orig_val)
+        {
+        }
+        else if (data.length > 0)
         {
             target.css('background-color', '#FFFF00');
 
@@ -163,7 +167,7 @@ function verifyTimestamp(stamp)
         return null;
     }
 
-    if ((stamp == 'NOW()') || (/^[\d]{4}-[\d]{2}-[\d]{2} [\d]{2}:[\d]{2}:[\d]{2}$/.test(stamp) && Date.parse(stamp.replace(' ', 'T'))))
+    if ((stamp == 'NOW()') || (stamp == 'UTC_TIMESTAMP()') || (/^[\d]{4}-[\d]{2}-[\d]{2} [\d]{2}:[\d]{2}:[\d]{2}$/.test(stamp) && Date.parse(stamp.replace(' ', 'T'))))
     {
         return true;
     }

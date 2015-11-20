@@ -25,7 +25,7 @@ if (!isset($currpage)) $currpage = ""
     <title>Hardlogger</title>
 </head>
 <body>
-<h1>HardLogger</h1>
+<h1>Hardlogger</h1>
 <div class="menu">
     <ul>
         <li<?php if ($currpage == "summary") echo " class=\"active\"" ?>><a href="summary.php?event_id=<?php echo $hl->currEvent() ?>">Summary</a></li>

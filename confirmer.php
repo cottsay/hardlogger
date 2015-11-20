@@ -50,7 +50,7 @@ catch (HardloggerException $e)
                         <td class="resulttd call_cell"><input name="call" type="text" class="newqso"></td>
                         <td class="resulttd check_cell"><input name="check" type="text" class="newqso"></td>
                         <td class="resulttd section_cell"><input name="section" type="text" class="newqso"></td>
-                        <td class="resulttd"><input name="status" type="hidden" value="1"><input name="stamp" type="hidden" value="NOW()"><input name="original_id" type="hidden"><input type="submit" value="Confirm QSO"> <input name="clear" type="button" value="Clear"> <input type="checkbox" name="validation_override">Override Validation</td>
+                        <td class="resulttd"><input name="status" type="hidden" value="1"><input name="stamp" type="hidden" value="UTC_TIMESTAMP()"><input name="original_id" type="hidden"><input type="submit" value="Confirm QSO"> <input name="clear" type="button" value="Clear"> <input type="checkbox" name="validation_override">Override Validation</td>
                     </tr>
                 </table>
             </form>
