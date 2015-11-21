@@ -4,7 +4,7 @@ function refreshContactNum(e)
 
     $.ajax({
         url: 'query.php',
-        data: 'get_num&no_queued&order=num&max=1&rev&event_id=' + HLEventID,
+        data: 'get_num&contacted&order=num&max=1&rev&event_id=' + HLEventID,
         dataType: 'json',
         cache: false,
     })

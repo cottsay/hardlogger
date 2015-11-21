@@ -102,6 +102,11 @@ if (isset($_GET['no_queued']))
     $conds[] = "(Status != 0)";
 }
 
+if (isset($_GET['contacted']))
+{
+    $conds[] = "(ContactNumber IS NOT NULL)";
+}
+
 if (isset($_GET['qso_id']))
 {
     $conds[] = "(id='" . mysql_real_escape_string($_GET['qso_id']) . "')";
