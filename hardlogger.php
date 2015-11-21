@@ -442,6 +442,44 @@ class Hardlogger
             throw new HardloggerException("Failed to insert qso: " . $this->db->error);
         }
     }
+
+    function getMaximumBreak()
+    {
+        $this->connect();
+
+        if ($this->event_id == null)
+        {
+            $this->selectEvent();
+        }
+
+        $result = $this->db->query("SELECT MAX(TIMESTAMPDIFF(SECOND, LoggedAt, LastLoggedAt)) FROM (SELECT q.LoggedAt, @prev AS LastLoggedAt, @prev:=LoggedAt FROM qsos q, (SELECT @prev:=UTC_TIMESTAMP()) VARS WHERE EventID=" . $this->event_id . " AND Status=1 ORDER BY LoggedAt DESC) maxbreak");
+
+        if (!$result)
+        {
+            throw new HardloggerException("Failed to get maximum break: " . $this->db->error);
+        }
+
+        $row = $result->fetch_assoc();
+
+        if (!$row)
+        {
+            throw new HardloggerException("Failed to get maximum break: query returned no results");
+        }
+
+        $maxbreak = $row['MAX(TIMESTAMPDIFF(SECOND, LoggedAt, LastLoggedAt))'];
+
+        $result->free();
+
+        if (is_numeric($maxbreak))
+        {
+            $hrs = floor($maxbreak / 3600);
+            $min = floor(($maxbreak - ($hrs * 3600)) / 60);
+            $sec = $maxbreak % 60;
+            $maxbreak = sprintf("%02d:%02d:%02d", $hrs, $min, $sec);
+        }
+
+        return $maxbreak;
+    }
     # PUBLIC API END
 }
 
