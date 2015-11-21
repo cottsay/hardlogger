@@ -201,6 +201,21 @@ td.dupe_message_display
     width: 100%;
 }
 
+td.settings_first
+{
+    width: 175px;
+}
+
+td.settings_second
+{
+    width: 400px;
+}
+
+.event_box
+{
+    width: 90%;
+}
+
 .watermark
 {
     color: #CCCCCC;

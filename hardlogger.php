@@ -145,6 +145,37 @@ class Hardlogger
         }
     }
 
+    public function editSettings($values)
+    {
+        $this->connect();
+
+        $query_strs = array();
+
+        foreach ($values as $key => $val)
+        {
+            switch ($key)
+            {
+            case 'active':
+            case 'event':
+                $query_strs[$key] = "UPDATE settings SET val='" . $val . "' WHERE var='" . $key . "'";
+                break;
+            default:
+                throw new HardloggerException("Invalid QSO field '" . $key . "'");
+                break;
+            }
+        }
+
+        foreach ($query_strs as $key => $query)
+        {
+            $result = $this->db->query($query);
+
+            if (!$result)
+            {
+                throw new HardloggerException("Failed to update setting '" . $key . "': " . $this->db->error);
+            }
+        }
+    }
+
     public function loadEvent()
     {
         if ($this->event == null)
@@ -183,6 +214,24 @@ class Hardlogger
         return $this->event;
     }
 
+    public function getEvents()
+    {
+        $this->connect();
+
+        $result = $this->db->query("SELECT id,event_name,callsign FROM events ORDER BY id ASC");
+
+        if (!$result)
+        {
+            throw new HardloggerException("Failed to get events: " . $this->db->error);
+        }
+
+        $events = Hardlogger::fetchAll($result);
+
+        $result->free();
+
+        return $events;
+    }
+
     public function getStats()
     {
         $this->connect();
@@ -212,6 +261,8 @@ class Hardlogger
         $stats['sections'] = $row['COUNT(DISTINCT Section)'];
         $stats['first'] = $row['MIN(LoggedAt)'];
         $stats['last'] = $row['MAX(LoggedAt)'];
+
+        $result->free();
 
         return $stats;             
     }

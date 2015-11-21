@@ -39,7 +39,7 @@ catch (HardloggerException $e)
                         <td class="resulttd serial_cell"><input name="num" type="text" class="local_newqso" readonly></td>
                         <td class="resulttd prec_cell"><input name="local_prec" type="text" class="local_newqso" readonly value="<?php echo $event['precedence'] ?>"></td>
                         <td class="resulttd call_cell"><input name="local_call" type="text" class="local_newqso" readonly value="<?php echo $event['callsign'] ?>"></td>
-                        <td class="resulttd check_cell"><input name="local_check" type="text" class="local_newqso" readonly value="<?php echo $event['chk'] ?>"></td>
+                        <td class="resulttd check_cell"><input name="local_check" type="text" class="local_newqso" readonly value="<?php echo (strlen($event['chk']) < 2 ? "0" . $event['chk']: $event['chk']) ?>"></td>
                         <td class="resulttd section_cell"><input name="local_section" type="text" class="local_newqso" readonly value="<?php echo $event['location'] ?>"></td>
                         <td class="resulttd dupe_message_display"></td>
                     </tr>

@@ -52,6 +52,10 @@ if (!isset($_GET['view']))
     header('Content-Description: File Transfer');
     header('Content-Disposition: attachment; filename="' . $event['callsign'] . '.log"');
 }
+else
+{
+    header('Content-Disposition: filename="' . $event['callsign'] . '.log"');
+}
 
 header("Content-type: text/plain");
 header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
