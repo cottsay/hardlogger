@@ -152,7 +152,7 @@ foreach ($events as $this_event)
             <td><input type="submit" value="Save Event"></td>
         </tr>
         <tr>
-            <td><input type="button" value="Download Cabrillo Log" onclick="location.href='cabrillo.php?event_id=<?php echo $hl->currEvent() ?>#/<?php echo $event['callsign'] ?>.log'"></td><td><input type="button" value="View Cabrillo Log" onclick="location.href='cabrillo.php?view&amp;event_id=<?php echo $hl->currEvent() ?>#/<?php echo $event['callsign'] ?>.log'"></td>
+            <td><input type="button" value="Download Cabrillo Log" onclick="window.open('cabrillo.php?event_id=<?php echo $hl->currEvent() ?>#/<?php echo $event['callsign'] ?>.log', '_blank');"></td><td><input type="button" value="View Cabrillo Log" onclick="window.open('cabrillo.php?view&amp;event_id=<?php echo $hl->currEvent() ?>#/<?php echo $event['callsign'] ?>.log', '_blank');"></td>
         </tr>
         </table>
     </form></td>
