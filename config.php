@@ -75,48 +75,76 @@ foreach ($events as $this_event)
         </tr>
         <tr>
             <td>Contest:</td><td><select name="contest">
+                <option value="ARRL-SS-CW"<?php if ($event['contest'] == "ARRL-SS-CW") echo " selected" ?>>ARRL-SS-CW</option>
                 <option value="ARRL-SS-SSB"<?php if ($event['contest'] == "ARRL-SS-SSB") echo " selected" ?>>ARRL-SS-SSB</option>
             </select></td>
         </tr>
         <tr>
             <td>Category Operator:</td><td><select name="cat_operator">
+                <option value="CHECKLOG"<?php if ($event['cat_operator'] == "CHECKLOG") echo " selected" ?>>CHECKLOG</option>
                 <option value="MULTI-OP"<?php if ($event['cat_operator'] == "MULTI-OP") echo " selected" ?>>MULTI-OP</option>
+                <option value="SINGLE-OP"<?php if ($event['cat_operator'] == "SINGLE-OP") echo " selected" ?>>SINGLE-OP</option>
             </select></td>
         </tr>
         <tr>
             <td>Category Assisted:</td><td><select name="cat_assist">
                 <option value="ASSISTED"<?php if ($event['cat_assist'] == "ASSISTED") echo " selected" ?>>ASSISTED</option>
+                <option value="NON-ASSISTED"<?php if ($event['cat_assist'] == "NON-ASSISTED") echo " selected" ?>>NON-ASSISTED</option>
             </select></td>
         </tr>
         <tr>
             <td>Category Band:</td><td><select name="cat_band">
                 <option value="ALL"<?php if ($event['cat_band'] == "ALL") echo " selected" ?>>ALL</option>
+                <option value="10M"<?php if ($event['cat_band'] == "10M") echo " selected" ?>>10M</option>
+                <option value="15M"<?php if ($event['cat_band'] == "15M") echo " selected" ?>>15M</option>
+                <option value="20M"<?php if ($event['cat_band'] == "20M") echo " selected" ?>>20M</option>
+                <option value="40M"<?php if ($event['cat_band'] == "40M") echo " selected" ?>>40M</option>
+                <option value="80M"<?php if ($event['cat_band'] == "80M") echo " selected" ?>>80M</option>
             </select></td>
         </tr>
         <tr>
             <td>Category Power:</td><td><select name="cat_power">
                 <option value="HIGH"<?php if ($event['cat_power'] == "HIGH") echo " selected" ?>>HIGH</option>
+                <option value="LOW"<?php if ($event['cat_power'] == "LOW") echo " selected" ?>>LOW</option>
+                <option value="QRP"<?php if ($event['cat_power'] == "QRP") echo " selected" ?>>QRP</option>
             </select></td>
         </tr>
         <tr>
             <td>Category Mode:</td><td><select name="cat_mode">
                 <option value="CW"<?php if ($event['cat_mode_cat'] == "CW") echo " selected" ?>>CW</option>
+                <option value="MIXED"<?php if ($event['cat_mode_cat'] == "MIXED") echo " selected" ?>>MIXED</option>
+                <option value="RTTY"<?php if ($event['cat_mode_cat'] == "RTTY") echo " selected" ?>>RTTY</option>
                 <option value="SSB"<?php if ($event['cat_mode_cat'] == "SSB") echo " selected" ?>>SSB</option>
             </select></td>
         </tr>
         <tr>
             <td>Category Station:</td><td><select name="cat_station">
+                <option value="EXPEDITION"<?php if ($event['cat_station'] == "FIXED") echo " selected" ?>>EXPEDITION</option>
+                <option value="FIXED"<?php if ($event['cat_station'] == "FIXED") echo " selected" ?>>FIXED</option>
+                <option value="HQ"<?php if ($event['cat_station'] == "HQ") echo " selected" ?>>HQ</option>
+                <option value="MOBILE"<?php if ($event['cat_station'] == "MOBILE") echo " selected" ?>>MOBILE</option>
+                <option value="PORTABLE"<?php if ($event['cat_station'] == "PORTABLE") echo " selected" ?>>PORTABLE</option>
+                <option value="ROVER"<?php if ($event['cat_station'] == "ROVER") echo " selected" ?>>ROVER</option>
+                <option value="ROVER-LIMITED"<?php if ($event['cat_station'] == "ROVER-LIMITED") echo " selected" ?>>ROVER-LIMITED</option>
+                <option value="ROVER-UNLIMITED"<?php if ($event['cat_station'] == "ROVER-UNLIMITED") echo " selected" ?>>ROVER-UNLIMITED</option>
                 <option value="SCHOOL"<?php if ($event['cat_station'] == "SCHOOL") echo " selected" ?>>SCHOOL</option>
             </select></td>
         </tr>
         <tr>
             <td>Category Transmitter:</td><td><select name="cat_transmitter">
                 <option value="ONE"<?php if ($event['cat_transmitter'] == "ONE") echo " selected" ?>>ONE</option>
+                <option value="TWO"<?php if ($event['cat_transmitter'] == "TWO") echo " selected" ?>>TWO</option>
+                <option value="LIMITED"<?php if ($event['cat_transmitter'] == "LIMITED") echo " selected" ?>>LIMITED</option>
+                <option value="UNLIMITED"<?php if ($event['cat_transmitter'] == "UNLIMITED") echo " selected" ?>>UNLIMITED</option>
+                <option value="SWL"<?php if ($event['cat_transmitter'] == "SWL") echo " selected" ?>>SWL</option>
             </select></td>
         </tr>
         <tr>
             <td>Mode:</td><td><select name="mode">
+                <option value="CW"<?php if ($event['cat_mode'] == "CW") echo " selected" ?>>CW</option>
+                <option value="FM"<?php if ($event['cat_mode'] == "FM") echo " selected" ?>>FM</option>
                 <option value="PH"<?php if ($event['cat_mode'] == "PH") echo " selected" ?>>PH</option>
+                <option value="RY"<?php if ($event['cat_mode'] == "RY") echo " selected" ?>>RY</option>
             </select></td>
         </tr>
         <tr>
@@ -141,6 +169,9 @@ foreach ($events as $this_event)
         </tr>
         <tr>
             <td>Contact Country:</td><td><input name="country" type="text" value="<?php echo $event['country'] ?>"></td>
+        </tr>
+        <tr>
+            <td>Contact Email:</td><td><input name="email" type="text" value="<?php echo 'N/A'/*$event['email']*/ ?>"></td>
         </tr>
         <tr>
             <td>Operators:</td><td><input name="operators" type="text" value="<?php echo $event['operators'] ?>"></td>

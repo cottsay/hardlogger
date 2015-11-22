@@ -32,9 +32,11 @@ ADDRESS-CITY: " . $event['city'] . "
 ADDRESS-STATE-PROVINCE: " . $event['state'] . "
 ADDRESS-POSTALCODE: " . $event['postal'] . "
 ADDRESS-COUNTRY: " . $event['country'] . "
-OPERATORS: " . $event['operators'] . "\r\n";
+OPERATORS: " . $event['operators'] . "\r\n"; // TODO: Max 75 chars
 
-$soapbox = explode("\r\n", $event['soapbox']);
+// TODO: OFFTIME: yyyy-mm-dd nnnn yyyy-mm-dd nnnn
+
+$soapbox = explode("\r\n", $event['soapbox']); // TODO: Max 75 chars
 foreach($soapbox as $box)
 {
     $cabrillo .= "SOAPBOX: " . $box . "\r\n";
