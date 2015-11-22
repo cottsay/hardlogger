@@ -17,7 +17,7 @@ class HardloggerException extends Exception
 
 class Hardlogger
 {
-    const Version = "2.1.0";
+    const Version = "3.0.0";
 
     #### SERVER CONFIG START
     const fancyBoxURL = "/fancybox";
